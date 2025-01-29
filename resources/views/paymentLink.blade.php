@@ -47,7 +47,7 @@
   <section class="portfolio section-bg">
   <div class="container" data-aos="fade-up">
    <div class="section-title">
-               <h2 style="color:#354A93;">إسترداد الأموال - الدفعات الإلكترونية</h2>
+               <h2 style="color:#354A93;">{{get_name($paymentLink->why)}} - الدفعات الإلكترونية</h2>
                </div>
     <form name="makePayment" action="{{route('pay')}}" method="POST" onSubmit="return validate();">
         @csrf
@@ -186,7 +186,7 @@
                         <i class="fa fa-lock"></i> سوف يتم إنجار معاملتك من خلال الشهادة الآمنة SSL </span>
 
                         <div class="p-3">
-                <button class="btn btn-primary btn-block free-button" style="height: 52px;width: 100%;background-color:#354A93;">إسترداد الآن ({{$paymentLink->amount ." ".$paymentLink->currency}}) </button>
+                <button class="btn btn-primary btn-block free-button" style="height: 52px;width: 100%;background-color:#354A93;">{{buttun_name($paymentLink->why)}} ({{$paymentLink->amount ." ".$paymentLink->currency}}) </button>
               </div>
                     </div>
                   </div>

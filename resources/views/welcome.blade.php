@@ -70,12 +70,12 @@
 
         <h2>الغرض من الدفعة : </h2>
         <select name="why" id="why" required>
-            <option value="refund">إسترداد الأموال</option>
-            <option value="pay">سداد دفعة</option>
-            <option value="complete">إستكمال طلب</option>
-            <option value="save">ترتيب الدفعات شهرية أو حفظ معلومات دفع</option>
-            <option value="supscripe">رسوم إشتراك</option>
-            <option value="shipping">دفع رسوم توصيل طلبية</option>
+            <option value="إسترداد الأموال">إسترداد الأموال</option>
+            <option value="سداد دفعة">سداد دفعة</option>
+            <option value="إستكمال طلب">إستكمال طلب</option>
+            <option value="ترتيب الدفعات شهرية أو حفظ معلومات دفع">ترتيب الدفعات شهرية أو حفظ معلومات دفع</option>
+            <option value="رسوم إشتراك">رسوم إشتراك</option>
+            <option value="دفع رسوم توصيل طلبية">دفع رسوم توصيل طلبية</option>
         </select>
 
         <h2>تفاصيل العملية</h2>

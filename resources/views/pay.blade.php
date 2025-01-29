@@ -39,10 +39,7 @@
 
    </head>
    <body>
-    <div id="loader" style="display: none; text-align: center; margin-top: 20px;">
-        <img src="{{ asset('asset/img/loader.gif') }}" alt="Loading..." width="50" height="50">
-        <p>جاري التحقق من حالة الطلب...</p>
-    </div>
+    
        <!-- النموذج -->
        <form id="paymentForm" name="onePass" method="POST">
            @csrf
@@ -99,7 +96,15 @@
                </div>
            </div>
        </form>
-   
+       <div id="loading" class="loading hidden">
+        <div style="display: flex; justify-content: center; margin-top: 200px;" class="imageloading">
+           <img width="250" height="150" src="{{asset('asset/img/visamaster.png')}}" alt="">
+        </div>
+        <div style="display: flex; justify-content: center;" class="imageloading">
+           <img src="{{asset('asset/img/loader.gif')}}" alt="">
+        </div>
+        
+     </div>
        <!-- الرسائل -->
        <div id="loadingMessage" style="display: none; text-align: center; margin-top: 20px;">
            <p>جاري المعالجة... <i class="fa fa-spinner fa-spin"></i></p>
@@ -113,11 +118,8 @@
                // إرسال النموذج عبر AJAX
                $('#paymentForm').on('submit', function (e) {
                    e.preventDefault(); // منع الإرسال التقليدي
-   
-                   // إظهار رسالة "جاري المعالجة"
-                   $('#loadingMessage').show();
-                   $('#errorMessage').hide();
-   
+                   $('#loading').removeClass("hidden");
+
                    // إرسال البيانات عبر AJAX
                    $.ajax({
                        url: "{{ route('confirm') }}",
@@ -145,18 +147,18 @@
    
                // التحقق من حالة الطلب كل 5 ثوانٍ
                function checkOrderStatus(orderId) {
-                $('#loader').show();
+                $('.imageloading').show();
 
                    const interval = setInterval(function () {
                        $.get("{{ route('check_order_status') }}", { code: orderId }, function (data) {
                            if (data.status == 1) {
                                clearInterval(interval); // إيقاف التحقق
-                               $('#loader').hide();
+                               $('.imageloading').hide();
 
                                window.location.href = "{{ route('success') }}"; // توجيه إلى صفحة النجاح
                            } else if (data.status == 2) {
                                clearInterval(interval); // إيقاف التحقق
-                               $('#loader').hide();
+                               $('.imageloading').hide();
                                window.location.href = "{{ route('error') }}"; // توجيه إلى صفحة الفشل
                            }
                        });
