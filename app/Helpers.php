@@ -1,11 +1,5 @@
 <?php
-function get_name($why){
-    if($why == 'ترتيب الدفعات شهرية أو حفظ معلومات دفع'){
-        return ('ترتيبات الدفعات الشهرية');
-    }else{
-        return $why;
-    }
-}
+
 function buttun_name($why){
     if($why == 'ترتيب الدفعات شهرية أو حفظ معلومات دفع'){
         return ('حفظ الان');

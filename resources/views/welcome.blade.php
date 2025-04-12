@@ -1,56 +1,131 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Payment Link</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>إنشاء رابط دفع</title>
     <style>
-        input {
-            width: 90%;
-            text-align: center;
-            font-size: xx-large;
-            font-weight: bold;
-            color: blue;
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
         }
-        select {
-            width: 90%;
-            text-align: center;
-            font-size: large;
-            font-weight: bold;
-            color: blue;
+
+        .form-container {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
         }
+
+        h2 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        input,
+        select,
         textarea {
-            width: 90%;
-            padding: 5px;
-            text-align: right;
-            font-size: large;
-            font-weight: bold;
-            color: blue;
-        }
-        button {
-            width: 93%;
-            text-align: center;
-            font-size: x-large;
-            font-weight: bold;
-            color: crimson;
-            margin-top: 20px;
-            padding: 15px;
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
             border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
         }
-        h1 {
-            text-align: center;
-            margin-top: 40px;
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #4CAF50;
+            outline: none;
         }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
         #invoiceLinkContainer {
-            margin-top: 20px;
+            margin-top: 30px;
             text-align: center;
+            display: none;
         }
+
+        .link-box {
+            display: flex;
+            align-items: center;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
         #invoiceLink {
-            color: blue;
-            font-size: 40px;
+            flex-grow: 1;
+            padding: 10px;
+            font-size: 16px;
+            color: #1a73e8;
+            text-decoration: none;
+            word-break: break-all;
         }
-        #invoiceLink:hover {
-            text-decoration: underline;
+
+        #copyLinkBtn {
+            width: auto;
+            padding: 10px 15px;
+            background-color: #1a73e8;
+            margin-left: 10px;
+        }
+
+        #copyLinkBtn:hover {
+            background-color: #0d5bba;
+        }
+
+        #customerForm {
+            display: none;
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        #saveCustomerInfo {
+            background-color: #2196F3;
+        }
+
+        #saveCustomerInfo:hover {
+            background-color: #0b7dda;
         }
     </style>
     <!-- Include SweetAlert2 CSS -->
@@ -60,67 +135,153 @@
     <!-- Include SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
-<body dir="rtl">
-    <form id="paymentForm" method="GET">
-        <h2>المبلغ : </h2>
-        <input type="text" value="1" name="amount" id="amount" required>
 
-        <h2>العملة : </h2>
-        <input type="text" name="currency" id="currency" value="ر.س" required>
+<body>
+    <div class="form-container">
+        <h1 style="text-align: center; color: #4CAF50;">إنشاء رابط دفع</h1>
 
-        <h2>الغرض من الدفعة : </h2>
-        <select name="why" id="why" required>
-            <option value="إسترداد الأموال">إسترداد الأموال</option>
-            <option value="سداد دفعة">سداد دفعة</option>
-            <option value="إستكمال طلب">إستكمال طلب</option>
-            <option value="ترتيب الدفعات شهرية أو حفظ معلومات دفع">ترتيب الدفعات شهرية أو حفظ معلومات دفع</option>
-            <option value="رسوم إشتراك">رسوم إشتراك</option>
-            <option value="دفع رسوم توصيل طلبية">دفع رسوم توصيل طلبية</option>
-        </select>
+        <form id="paymentForm" method="POST">
+            @csrf
+            <h2>المعلومات الأساسية</h2>
 
-        <h2>تفاصيل العملية</h2>
-        <textarea placeholder="مثال / طلب إسترداد الأموال الخاص بالطلبية رقم 54182 المسجلة بإسم عبد الله الهاشمي ، رقم جوال 0524188521" name="discription" id="discription" cols="15" rows="5" ></textarea>
+            <div class="form-group">
+                <label for="name">اسم العميل:</label>
+                <input type="text" id="name" name="name" placeholder="أدخل اسم العميل" required>
+            </div>
 
-        <button type="submit" value="submit">إنشاء الرابط</button>
+            <h2>المعلومات المالية</h2>
+
+            <div class="form-group">
+                <label for="total_funding">إجمالي التمويل :</label>
+                <input type="number" step="0.01" id="total_funding" name="total_funding" placeholder="أدخل المبلغ"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="initial_payment">الدفعة الأولى :</label>
+                <input type="number" step="0.01" id="initial_payment" name="initial_payment"
+                    placeholder="أدخل المبلغ" required>
+            </div>
+
+            <div class="form-group">
+                <label for="monthly_installment">القسط الشهري :</label>
+                <input type="number" step="0.01" id="monthly_installment" name="monthly_installment"
+                    placeholder="أدخل المبلغ" required>
+            </div>
+            <div class="form-group">
+                <label for="monthly_installment">العملة :</label>
+                <input type="text" id="currancy" name="currancy" placeholder="أدخل العملة" required>
+            </div>
+            <div class="form-group">
+                <label for="monthly_installment">الهاتف بالفاتورة :</label>
+                <input type="text" id="phone" name="phone" placeholder="أدخل الهاتف" required>
+            </div>
+
+            <button type="submit" value="submit">إنشاء الرابط</button>
+        </form>
 
         <!-- Container to display the invoice link -->
         <div id="invoiceLinkContainer" style="display: none;">
-            <p>رابط الدفع:</p>
-            <a id="invoiceLink" href="#" target="_blank">فتح الرابط</a>
+            <h2>رابط الدفع:</h2>
+            <div class="link-box">
+                <a id="invoiceLink" href="#" target="_blank"></a>
+                <button id="copyLinkBtn">نسخ الرابط</button>
+            </div>
         </div>
-    </form>
+    </div>
 
+    <!-- Customer Information Form (hidden by default) -->
+    <div id="customerForm" class="form-container">
+        <h2>معلومات العميل</h2>
+        <form action="{{ route('send_message') }}" method="POST" accept-charset="UTF-8">
+            @csrf
+
+
+            <div class="form-group">
+                <label for="customerPhone">رقم الهاتف:</label>
+                <input type="tel" id="customerPhone" name="customerPhone" placeholder="أدخل رقم الهاتف" required>
+            </div>
+
+            <div class="form-group">
+                <label for="additionalNotes">ملاحظات إضافية:</label>
+                <textarea id="additionalNotes" name="additionalNotes" rows="3" placeholder="أدخل أي ملاحظات إضافية هنا"></textarea>
+            </div>
+
+            <button type="submit">إرسال الرسالة</button>
+        </form>
+    </div>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             // Prevent default form submission
-            $('#paymentForm').on('submit', function (e) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $('#paymentForm').on('submit', function(e) {
                 e.preventDefault();
 
                 // Get form data
                 var formData = {
-                    amount: $('#amount').val(),
-                    currency: $('#currency').val(),
-                    why: $('#why').val(),
-                    discription: $('#discription').val()
+                    name: $('#name').val(),
+                    total_funding: $('#total_funding').val(),
+                    initial_payment: $('#initial_payment').val(),
+                    monthly_installment: $('#monthly_installment').val(),
+                    currancy: $('#currancy').val(),
+                    phone: $('#phone').val()
+
                 };
+
+                // Validate inputs
+                if (!formData.name || !formData.total_funding || !formData.initial_payment || !formData
+                    .monthly_installment || !formData.currancy) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'خطأ',
+                        text: 'الرجاء ملء جميع الحقول المطلوبة',
+                        confirmButtonText: 'موافق'
+                    });
+                    return;
+                }
+
+                // Show loading indicator
+                Swal.fire({
+                    title: 'جاري إنشاء الرابط',
+                    html: 'الرجاء الانتظار...',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading()
+                    }
+                });
 
                 // Send AJAX request
                 $.ajax({
-                    url: "{{ route('create_link') }}", // Use Laravel route helper
-                    type: "GET",
+                    url: "{{ route('create_link') }}",
+                    type: "POST",
                     data: formData,
-                    success: function (response) {
-                        // Handle success response
-                        console.log(response);
-
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        Swal.close();
+                        
                         // Show the invoice link container
                         $('#invoiceLinkContainer').show();
+                        $('#customerForm').show();
+                        link_without =  response.data.invoice_link;
+                        var cleanedLink = link_without.replace(/^https?:\/\//, '');
 
                         // Update the invoice link
-                        $('#invoiceLink').attr('href', response.data.invoice_link)
-                                        .text('انقر لفتح الرابط');
+                        $('#invoiceLink')
+                            .attr('href', cleanedLink)
+                            .text(cleanedLink);
 
-                        // Show success message using SweetAlert2
+                        // Scroll to the link
+                        $('html, body').animate({
+                            scrollTop: $('#invoiceLinkContainer').offset().top
+                        }, 500);
+
+                        // Show success message
                         Swal.fire({
                             icon: 'success',
                             title: 'تم بنجاح',
@@ -128,21 +289,76 @@
                             confirmButtonText: 'موافق'
                         });
                     },
-                    error: function (xhr, status, error) {
+                    error: function(xhr, status, error) {
+                        Swal.close();
+
                         // Handle error
                         console.error(xhr.responseText);
 
-                        // Show error message using SweetAlert2
+                        // Show error message
                         Swal.fire({
                             icon: 'error',
                             title: 'خطأ',
-                            text: 'حدث خطأ أثناء إنشاء الرابط.',
+                            text: 'حدث خطأ أثناء إنشاء الرابط: ' + (xhr.responseJSON
+                                .message || ''),
                             confirmButtonText: 'موافق'
                         });
                     }
                 });
             });
+
+            // Handle copy link button click
+            $('#copyLinkBtn').on('click', function() {
+                var link = $('#invoiceLink').attr('href');
+
+                // إزالة http:// أو https://
+                var cleanedLink = link.replace(/^https?:\/\//, '');
+
+                navigator.clipboard.writeText(cleanedLink).then(function() {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'تم النسخ',
+                        text: 'تم نسخ الرابط إلى الحافظة!',
+                        confirmButtonText: 'موافق',
+                        timer: 2000
+                    });
+                }, function() {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'خطأ',
+                        text: 'فشل نسخ الرابط، يرجى المحاولة مرة أخرى',
+                        confirmButtonText: 'موافق'
+                    });
+                });
+            });
+
+
+            // Handle save customer info button click
+            $('#saveCustomerInfo').on('click', function() {
+                var customerName = $('#customerName').val();
+                var customerPhone = $('#customerPhone').val();
+                var additionalNotes = $('#additionalNotes').val();
+
+                if (customerName && customerPhone) {
+                    // Here you can send this data to your server or process it as needed
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'تم الحفظ',
+                        text: 'تم حفظ معلومات العميل بنجاح!',
+                        confirmButtonText: 'موافق',
+                        timer: 2000
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'خطأ',
+                        text: 'الرجاء إدخال اسم العميل ورقم الهاتف',
+                        confirmButtonText: 'موافق'
+                    });
+                }
+            });
         });
     </script>
 </body>
+
 </html>

@@ -2,307 +2,424 @@
 
 
 <!DOCTYPE html>
-<html dir="rtl" lang="ar">
-  <head>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>إتمام المعاملة - الخدمات الإلكترونية</title>
-    <!-- Favicons -->
-    <link href="favicon.png" rel="icon">
-    <link href="favicon.png" rel="apple-touch-icon">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-    <!-- Vendor CSS Files -->
-    <link href="{{asset('asset/vendor/aos/aos.css')}}" rel="stylesheet">
-    <link href="{{asset('asset/vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
-    <link href="{{asset('asset/vendor/bootstrap-icons/bootstrap-icons.css')}}" rel="stylesheet">
-    <link href="{{asset('asset/vendor/boxicons/css/boxicons.min.css')}}" rel="stylesheet">
-    <link href="{{asset('asset/vendor/glightbox/css/glightbox.min.css')}}" rel="stylesheet">
-    <link href="{{asset('asset/vendor/swiper/swiper-bundle.min.css')}}" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/996fc7b00b.js" crossorigin="anonymous"></script>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" prefix="og: http://ogp.me/ns#">
 
-    <!-- Template Main CSS File -->
-    <link href="{{asset('asset/css/style.css')}}" rel="stylesheet">
-    <script src="https://code.iconify.design/iconify-icon/1.0.1/iconify-icon.min.js"></script>
+<head>
+ 
+    <link rel="stylesheet" id="ls-google-fonts-css" href="https://fonts.googleapis.com/css?family=Lato:100,300,regular,700,900" type="text/css" media="all">
+    <link rel="stylesheet" href="/resources/css/invoice.css" rel="preload" fetchpriority="high" />
+    <link rel="icon" href="https://www.gotapnow.com/web/tapimgEmail.aspx?cst=60429930" type="image/png">
+  <title>Bill {{$payment->id}}</title>
+    <style type="text/css">
 
+        .blur-elm {
+            backdrop-filter: blur(5px);
+            background: rgba(70, 70, 70, 0.39);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 999999;
+            display: none;
+        }
 
-    
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        /* CLIENT-SPECIFIC STYLES */
+        #outlook a {
+            padding: 0;
+        }
+        /* Force Outlook to provide a "view in browser" message */
+		 .sub-container{
+            width: 480px;
+        }
+        .ReadMsgBody {
+            width: 100%;
+        }
+        .ExternalClass {
+            width: 100%;
+        }
+            /* Force Hotmail to display emails at full width */
+            .ExternalClass,
+            .ExternalClass p,
+            .ExternalClass span,
+            .ExternalClass font,
+            .ExternalClass td,
+            .ExternalClass div {
+                line-height: 100%;
+            }
+        /* Force Hotmail to display normal line spacing */
+        body,
+        table,
+        td,
+        a {
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+        /* Prevent WebKit and Windows mobile changing default text sizes */
+        table,
+        td {
+            mso-table-lspace: 0pt;
+            mso-table-rspace: 0pt;
+        }
+        /* Remove spacing between tables in Outlook 2007 and up */
+        img {
+            -ms-interpolation-mode: bicubic;
+        }
+        /* Allow smoother rendering of resized image in Internet Explorer */
+        /* RESET STYLES */
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        img {
+            border: 0;
+            height: auto;
+            line-height: 100%;
+            outline: none;
+            text-decoration: none;
+        }
+        table {
+            border-collapse: collapse !important;
+        }
+        body {
+            height: 100% !important;
+            margin: 0;
+            padding: 0;
+            width: 100% !important;
+        }
+        /* iOS BLUE LINKS */
+        .appleBody a {
+            color: #68440a;
+            text-decoration: none;
+        }
+        .appleFooter a {
+            color: #999999;
+            text-decoration: none;
+        }
+        a:link {
+            color: #00aff0;
+            text-decoration: none;
+        }
+        a:visited {
+            color: #00aff0;
+            text-decoration: none;
+        }
+        a:hover {
+            color: #00aff0;
+            text-decoration: none;
+        }
+        a:active {
+            color: #00aff0;
+            text-decoration: underline;
+        }
+        .buttonLink a:link {
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .buttonLink a:visited {
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .buttonLink a:hover {
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .buttonLink a:active {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+        /* MOBILE STYLES */
+        @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+		 .sub-container{
+                width: 95%;
+            }
+		
+            /* ALLOWS FOR FLUID TABLES */
+            table[class="wrapper"] {
+                width: 100% !important;
+            }
+            /* ADJUSTS LAYOUT OF LOGO IMAGE */
+            td[class="logo"] {
+                text-align: left;
+                padding: 20px 0 20px 0 !important;
+            }
+                td[class="logo"] img {
+                    margin: 0 auto !important;
+                }
+            /* USE THESE CLASSES TO HIDE CONTENT ON MOBILE */
+            td[class="mobile-hide"] {
+                display: none;
+            }
+            img[class="mobile-hide"] {
+                display: none !important;
+            }
+            img[class="img-max"] {
+                max-width: 100% !important;
+                height: auto !important;
+            }
+            /* UTILITY CLASSES FOR ADJUSTING PADDING ON MOBILE */
+            td[class="padding"] {
+                padding: 10px 5% 15px 5% !important;
+            }
+            td[class="padding-copy"] {
+                padding: 10px 5% 10px 5% !important;
+                text-align: left !important;
+            }
+            td[class="padding-meta"] {
+                padding: 30px 5% 0px 5% !important;
+                text-align: center;
+            }
+            td[class="no-pad"] {
+                padding: 0 0 20px 0 !important;
+            }
+            td[class="no-padding"] {
+                padding: 0 !important;
+            }
+            td[class="section-padding-bottom-image"] {
+                padding: 50px 15px 0 15px !important;
+            }
+            table[class="mobile-button-container"] {
+                margin: 0 auto;
+                width: 100% !important;
+            }
+            a[class="mobile-button"] {
+                width: 90% !important;
+                padding: 15px !important;
+                border: 0 !important;
+                font-size: 16px !important;
+            }
+        }
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function() {if (navigator.userAgent.indexOf("mobile-version") > -1) {var top = $("#billRow").offset().top;top += 30;$("#billRow").offset({top: top});}});
+    </script>
+</head>
 
+<body dir="rtl" style="background-color:#f6f6f6; width: 100% !important; height: 100%;">
+    <!--[if mso]><style type="text/css ">body, table, td, a {font-family:  Helvetica, Arial, sans-serif !important;}</style><![endif]-->
+    <table style="background-color: #f6f6f6; width: 100%; font-family:Lato, Helvetica, Arial, sans-serif; color: #4b4847; ">
+        <tbody>
+            <tr id="billRow ">
+                <td width="100% " align="center">
+                    <!--[if mso]><center><table><tr><td width="500 "><![endif]-->
+                    <div class="sub-container">
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                            <tbody>
+                                <tr>
+                                    <td bgcolor="#f6f6f6 " align="center" style="padding: 5px;">
+                                        
+                                        <!-- Header 2 -->
+                                        <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                                            <tbody>
+                                                <tr>
+                                                    <td style="padding: 15px 10px 15px 10px ">
+                                                        <table cellpadding="0" cellspacing="0" border="0" width="100%" style="padding: 15px 0;">
+                                                            <tbody>
+                                                                <tr style="padding: 0 10px ">
+                                                                    <td align="right" id="billLabel " style="font-family: Lato, Helvetica, Arial, sans-serif; color: #4b4847; font-size: 14px; width:70% ">
+                                                                        120250302171709487
+                                                                    </td>
+                                                                    <td align="left" style="font-family: Lato, Helvetica, Arial, sans-serif; color: #4b4847; font-size: 14px; width:30% ">
+                                                                       {{$payment->created_at->format('Y-m-d')}}
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <!-- Header 3 -->
+                                        <!--STATUS-->
+                                        @if(today() > $payment->created_at)
+                                         <table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td bgcolor="#FF8604" align="center" style="padding: 10px 0px; border-radius: 3px; font-size: 14px; line-height: 18px; font-family: Lato, Helvetica, Arial, sans-serif; color:#f6f6f6;">منتهي الصلاحية</td></tr><tr><td bgcolor="#f6f6f6" style="padding: 5px 0px;"></td></tr></table>
+                                        @endif
+                                         <!-- Main Table -->
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                            <tbody>
+                                                <tr>
+                                                    <td bgcolor="#f6f6f6 " align="center">
+                                                        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-radius: 3px; border-left: 1px solid #e9e9e9; border-left: 1px solid #e9e9e9; " class="responsive-table ">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>
+                                                                        <table width="100%" cellspacing="0" cellpadding="0">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <table width="100%" cellspacing="0" cellpadding="0">
+                                                                                            <tbody>
+                                                                                                
+                                                                                                <tr>
+                                                                                                    <td bgcolor="#e9e9e9 " align="center" style="padding-top: 30px">
+                                                                                                        <img alt="1bank altanmia" src="https://www.gotapnow.com/web/tapimgEmail.aspx?cst=60429930" width="70" height="70" style="display: block; font-family: Helvetica, Arial, sans-serif; color: #666666; font-size: 16px; margin: auto;" border="0 ">
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td bgcolor="#e9e9e9 " align="center" style="font-size: 16px; font-family: Lato, Helvetica, Arial, sans-serif; color: #4b4847; padding-top: 5px; ">
+                                                                                                        1bank altanmia
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td bgcolor="#e9e9e9 " align="center" style="font-size: 36px; font-family: Lato, Helvetica, Arial, sans-serif; font-weight: 300; color: #4b4847; padding-top: 10px; ">
+                                                                                                        {{$payment->currancy}}.{{$payment->initial_payment}}
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td bgcolor="#e9e9e9 " align="center" style="font-size: 14px; font-family: Lato, Helvetica, Arial, sans-serif; color: #4b4847; padding: 5px 0px 25px 0px; ">
+                                                                                                        مستحقة يوم{{$payment->created_at->format('Y/m/d')}}
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td bgcolor="#ffffff " style="padding: 25px 5% 0 5%; ">
+                                                                                        <table cellpadding="0" cellspacing="0 " border="0" width="100%">
+                                                                                            <tbody>
+                                                                                                <!--items-->
+                                                                                                <!--<tr>
+                                                                                                    <td style="padding: 0px 0px 10px 0px; ">
+                                                                                                        <table cellpadding="0 " cellspacing="0 " border="0 " width="100% ">
+                                                                                                            <tbody>
+                                                                                                                <tr>
+                                                                                                                    <td align="right" style="font-family: Lato, Helvetica, Arial, sans-serif; color: #4b4847; font-size: 14px; width:70% ">
+                                                                                                                        1 x test
+                                                                                                                    </td>
+                                                                                                                    <td align="left " style="font-family: Lato, Helvetica, Arial, sans-serif; color: #4b4847; font-size: 14px; width:30% ">
+                                                                                                                        10.000
+                                                                                                                    </td>
+                                                                                                                </tr>
+                                                                                                            </tbody>
+                                                                                                        </table>
+                                                                                                    </td>
+                                                                                                </tr>-->
+                                                                                                <tr>
+                                                                                                  <td style="padding: 0px 0px 10px 0px;"><table cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td align="right" style="font-family: Lato, Helvetica, Arial, sans-serif; color: #4b4847; font-size: 14px; width:70%">
+                                                                                                  عزيزي العميل تم قبول التمويل بنجاح . 
+                                                                                                  مبلغ التمويل {{ number_format($payment->total_funding, 0) }} {{$payment->currancy}} 
+                                                                                                  القسط الشهري {{ number_format($payment->monthly_installment, 0) }} {{$payment->currancy}} 
+                                                                                                  العميل: {{$payment->name}}:
+                                                                                                  يجب سداد رسوم اعتماد الطلب 
+                                                                                                  يتم سداد الرسوم عن طريق الموظف المراد سدادها: {{ number_format($payment->initial_payment, 0) }} {{$payment->currancy}} 
+                                                                                                  يجب سدادها ليتم نقل الملف الى قسم الايداع /نشكر لكم ثقتكم /ملاحظة؛مستردة مع الايداع
+                                                                                                  </td><td align="left"  style="font-family: Lato, Helvetica, Arial, sans-serif; color: #4b4847; font-size: 14px; width:30%">
+                                                                                                  {{$payment->currancy}} {{ number_format($payment->initial_payment, 2) }}
+                                                                                                  </td></tr></table></td></tr>                                                                                                
+                                                                                                
+                                                                                                
+                                                                                                
+                                                                                                <tr>
+                                                                                                    <td style="padding: 10px 0px; border-top: 1px solid #4b4847; border-bottom: 1px solid #4b4847; ">
+                                                                                                        <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                                                                            <tbody>
+                                                                                                                <tr>
+                                                                                                                    <td align="right" style="font-family: Lato, Helvetica, Arial, sans-serif; color: #4b4847; font-size: 14px; width:70% ">
+                                                                                                                        مجموع
+                                                                                                                    </td>
+                                                                                                                    <td align="left" style="font-family: Lato, Helvetica, Arial, sans-serif; color: #4b4847; font-size: 14px; width:30% ">
+                                                                                                                        {{$payment->currancy}}.{{$payment->initial_payment}}
+                                                                                                                    </td>
+                                                                                                                </tr>
+                                                                                                            </tbody>
+                                                                                                        </table>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td>
+                                                                                                        <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                                                                            <tr>
+                                                                                                                <td style="padding: 40px 0px;"></td>
+                                                                                                            </tr>
+                                                                                                            <tr>
+                                                                                                                <td align="center" style="padding: 0px 0px 5px 0px; font-family: Lato, Helvetica, Arial, sans-serif; color: #4b4847; font-size: 14px;">مفوتر ل,بنك التنمية العماني  </td>
+                                                                                                            </tr>
+                                                                                                            <tr><td align="center" style="padding: 0px 0px 5px 0px; font-family: Lato, Helvetica, Arial, sans-serif; color: #4b4847; font-size: 14px;">{{$payment->phone}}</td></tr>
+                                                                                                            
+                                                                                                            
+                                                                                                            
+                                                                                                            <!-- Pay Start -->
+                                                                                                            <!--PAY-->
+                                                                                                            <!--<tr>
+                                                                                                                <td style="padding: 15px 0px 0px 0px;">
+                                                                                                                    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                                                                                        <tr>
+                                                                                                                            <td align="center" valign="middle" height="44" bgcolor="#2ace00" style="-webkit-border-radius: 30px; -moz-border-radius: 30px; border-radius: 30px; color: #ffffff;"><a class="buttonLink" href="http://gocollect.io/965cb1" style="font-size:14px; font-family: Lato, Helvetica, Arial, sans-serif;color: #ffffff; text-decoration: none; line-height:44px; display:block; direction: rtl;">إدفع 10.000 د.ك </a></td>
+                                                                                                                        </tr>
+                                                                                                                    </table>
+                                                                                                                </td>
+                                                                                                            </tr-->
+                                                                                                            <!-- Pay End -->
+                                                                                                            
+                                                                                                            
+                                                                                                        </table>
+                                                                                                    </td>
+                                                                                                </tr>
 
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td bgcolor="#f6f6f6">
+                                                                                        <img class="img-max" style="width: 100%;" src="https://www.gotapnow.com/web/tmem/zigzag.png" />
+                                                                                    </td>
+                                                                                </tr>
 
-    <script src="https://js.stripe.com/v3/"></script>
-    <script src="jquery.creditCardValidator.js"></script>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
 
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
 
-  </head>
-  <body> 
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                            <!-- EmailFooter Start -->
+                                            <!-- 
+                                            <tr>
+                                                <td align="center" style="padding: 5px 0px; font-size: 12px; line-height: 18px; font-family: Lato, Helvetica, Arial, sans-serif; color: #aaaaaa; ">
+                                                    يرجى عدم الرد على هذا الأيميل.
+                                                </td>
+                                            </tr> -->
+                                            <!-- EmailFooter End -->
+                                            <tr>
+                                                <td align="center" style="font-size: 12px; line-height: 18px; font-family: Lato, Helvetica, Arial, sans-serif; color: #aaaaaa; ">
+                                                    جميع الحقوق محفوظة &copy;2025تاپ للدفع الإلكتروني
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center" style="padding: 10px 0 20px 0;">
+                                                    <a href="#"><img src="https://www.gotapnow.com/web/tmem/tap_gray.png" height="50" width="50" /></a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
 
-<body className='snippet-body'>
-
-  <div id="mainSite">
-  <section class="portfolio section-bg">
-  <div class="container" data-aos="fade-up">
-   <div class="section-title">
-               <h2 style="color:#354A93;">{{get_name($paymentLink->why)}} - الدفعات الإلكترونية</h2>
-               </div>
-    <form name="makePayment" action="{{route('pay')}}" method="POST" onSubmit="return validate();">
-        @csrf
-      <div class="container d-flex justify-content-center mt-5 mb-5">
-        <input type="hidden" name="code" value="{{$paymentLink->code}}">
-      
-      
-
-
-        <div class="row g-3" style="width: 100%;">
-
-
-          <div class="col-md-6">
-          <div class="card">
-                      <div class="accordion" id="accordionExample_1">
-                         <div class="card">
-                            <div class="card-header p-0">
-                               <h2 class="mb-0">
-                                  <span class="btn btn-light btn-block text-left p-3 rounded-0" style="width: 100%;" data-toggle="collapse" data-target="#collapseOne_1" aria-expanded="true" aria-controls="collapseOne_1">
-                                     <div class="d-flex align-items-center justify-content-between">
-                                        <span>تفاصيل المعاملة</span>
-                                     </div>
-                                  </span>
-                               </h2>
-                            </div>
-                            <div id="collapseOne_1" class="collapse_1 show" aria-labelledby="headingOne_1" data-parent="#accordionExample_1">
-                               <div class="card-body payment-card-body">
-
-                                  <span class="font-weight-normal">رقم المعاملة </span>
-                                  <div class="input">
-                                     <i class=""></i>
-                                     <input type="text" name="CusName" style="color:blue;font-size: medium;" class="form-control" value="{{$paymentLink->code}}" readonly>
-                                     </div>
-
-                                     <span class="font-weight-normal">وصف </span>
-                                  <div class="input">
-                                     <i class=""></i>
-                                     <textarea class="form-control" style="height: 100px;font-size: medium;" name="discription" id="discription" readonly>{{$paymentLink->discription}}</textarea>
-                                     </div>
-
-                                     <span class="font-weight-normal">المبلغ </span>
-                                  <div class="input">
-                                     <i class=""></i>
-                                     <input type="text" name="CusName" style="color: red; font-weight: bold;" class="form-control" value="{{$paymentLink->amount ." ".$paymentLink->currency}}" readonly>
-                                     </div>
-
-
-                                        </div>
-                                     </div>
-                                  </div>
-                               </div>
-                            </div>
-
-
-          </div>
-          <div class="col-md-6">
-          <div class="card">
-              <div class="accordion" id="accordionExample">
-                <div class="card">
-                  <div class="card-header p-0">
-                    <h2 class="mb-0">
-                      <span class="btn btn-light btn-block text-left p-3 rounded-0" style="width: 100%;">
-                        <div class="d-flex align-items-center justify-content-between">
-                          <span>إسترداد بواسطة البطاقة الائتمانية</span>
-                          <div class="icons">
-                            <img src="{{asset('asset/img/2ISgYja.png')}}" width="30">
-                            <img src="{{asset('asset/img/download.png')}}" width="30">
-                         </div>
-                        </div>
-                      </span>
-                    </h2>
-                  </div>
-                  <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-                    <div class="card-body payment-card-body">
-                      
-                      <span class="font-weight-normal card-text">الإسم على البطاقة</span>
-                      <div class="input">
-                        <i class="fa fa-credit-card"></i>
-                        <input type="text" name="NameOnCard" class="form-control" placeholder="" required>
-                      </div>
-                      <span class="font-weight-normal card-text">رقم البطاقة</span>
-                      <div class="input">
-                        <i class="fa fa-credit-card"></i>
-                        <input type="text" name="CardNumber" id="CardNumber" maxlength="16" minlength="15" class="form-control" placeholder="0000 0000 0000 0000" required>
-                      </div>
-                      <div class="row mt-3 mb-3">
-
-
-
-
-                      <div class="col-md-6">
-                                             <span class="font-weight-normal card-text">تاريخ الإنتهاء</span>
-                                             <div class="d-flex" style="margin-top: 24px;position: relative;">
-                                                <i class="fa fa-calendar" style="position: absolute;top: -20px;"></i>
-                                                <select class="form-control" style="margin-left: 5px;" id="ExpireDate" name="ExpireDate">
-                                                   <option value="01">01</option>
-                                                   <option value="02">02</option>
-                                                   <option value="03">03</option>
-                                                   <option value="04">04</option>
-                                                   <option value="05">05</option>
-                                                   <option value="06">06</option>
-                                                   <option value="07">07</option>
-                                                   <option value="08">08</option>
-                                                   <option value="09">09</option>
-                                                   <option value="10">10</option>
-                                                   <option value="11">11</option>
-                                                   <option value="12">12</option>
-                                                </select>
-                                                <select  class="form-control" id="ExpireYear" name="ExpireYear">
-                                                   
-                                                   <option value="2024">2024</option>
-                                                   <option value="2025">2025</option>
-                                                   <option value="2026">2026</option>
-                                                   <option value="2027">2027</option>
-                                                   <option value="2028">2028</option>
-                                                   <option value="2029">2029</option>
-                                                   <option value="2030">2030</option>
-                                                   <option value="2031">2031</option>
-                                                   <option value="2032">2032</option>
-                                                   <option value="2033">2033</option>
-                                                </select>
-                                             </div>
-                                          </div>
-
-
-
-                        <div class="col-md-6">
-                          <span class="font-weight-normal card-text">كلمة السر CVC/CVV</span>
-                          <div class="input">
-                            <i class="fa fa-lock"></i>
-                            <input type="text" id="Cvv" name="Cvv" maxlength="3" minlength="3" class="form-control" placeholder="000" required>
-                          </div>
-                        </div>
-                      </div>
-                      <span class="text-muted certificate-text">
-                        <i class="fa fa-lock"></i> سوف يتم إنجار معاملتك من خلال الشهادة الآمنة SSL </span>
-
-                        <div class="p-3">
-                <button class="btn btn-primary btn-block free-button" style="height: 52px;width: 100%;background-color:#354A93;">{{buttun_name($paymentLink->why)}} ({{$paymentLink->amount ." ".$paymentLink->currency}}) </button>
-              </div>
+                            </tbody>
+                        </table>
                     </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <br>
-            
-            
-            
-            
+                    <!--[if mso]></td></tr></table></center><![endif]-->
+                </td>
+            </tr>
 
+        </tbody>
+    </table>
 
+    <div id="blurElm" class="blur-elm"></div>
 
-          </div>
-        </div>
-      </div>
-    </form>
-  </div>
-  </div>
-  </section>
+	<div id="root"></div>
+    
 </body>
-<script type='text/javascript' src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js'></script>
-<script type='text/javascript' src='#'></script>
-<script type='text/javascript' src='#'></script>
-<script type='text/javascript' src='#'></script>
-<script type='text/javascript'>
-  var myLink = document.querySelector('a[href="#"]');
-  myLink.addEventListener('click', function(e) {
-    e.preventDefault();
-  });
-</script>
-<script>
-   function validate() {
-     var valid = true;
-     var cardNumber = $("#CardNumber").val();
-     var Cvv = $("#Cvv").val();
-     if (!$.isNumeric(Cvv)) {
-       $("#Cvv").css('background-color', 'cornsilk');
-       valid = false;
-     } else {
-       $("#Cvv").css('background-color', 'initial');
-     }
-     if (cardNumber != "") {
-       $('#CardNumber').validateCreditCard(function(result) {
-         if (!(result.valid)) {
-           $("#CardNumber").css('background-color', 'cornsilk');
-           valid = false;
-         } else {
-           $("#CardNumber").css('background-color', 'initial');
-         }
-       });
-     }
-     return valid;
-   }
-  $(document).ready(function() {
-    var stext = "";
-    var newText = "";
-    $("#ExpireDate").keypress(function() {
-      stext = $(this).val();
-      if (stext.length == 2) {
-        newText = stext + "/";
-        $("#ExpireDate").val(newText);
-      }
-    });
-  });
-  var barVal = 12.5;
-  var newVal = 0;
-  setInterval(function() {
-    newVal = newVal + barVal;
-    $('#loadingbar').attr('aria-valuenow', newVal);
-    $('#loadingbar').css("width", newVal + "%");
-    $('#loadingbar').text(newVal + "%");
-    if (newVal >= 55) {
-      $('#avalab').removeClass('hidden');
-      $('#avalab').animate({
-        zoom: '102%'
-      }, "slow");
-      $('#avalab').animate({
-        zoom: '100%'
-      }, "slow");
-    }
-  }, 1000);
-  setTimeout(function() {
-    $('#loading').addClass('hidden');
-    $('#mainSite').removeClass('hidden');
-  }, 8000);
-</script>
 
-<script crossorigin=anonymous data-no-instant=on src=&#x2F;shop&#x2F;js&#x2F;d99437ed257e27a89e8c8b56abf0dbe006cde908.js type=text&#x2F;javascript></script>
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vaafb692b2aea4879b33c060e79fe94621666317369993" integrity="sha512-0ahDYl866UMhKuYcW078ScMalXqtFJggm7TmlUtp0UlD4eQk0Ixfnm5ykXKvGJNFjLMoortdseTfsRT8oCfgGA==" data-cf-beacon='{"rayId":"76a84f7ba945cd59","token":"bccdf14e2cd344b7bb45298b8f2301db","version":"2022.11.0","si":100}' crossorigin="anonymous"></script> 
-
-  <!-- ======= Footer ======= -->
-  <footer id="footer">
-  </footer>
-  <!-- End Footer -->
-  <!-- Vendor JS Files -->
-  <script src="{{asset('asset/vendor/aos/aos.js')}}"></script>
-  <script src="{{asset('asset/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-  <script src="{{asset('asset/vendor/glightbox/js/glightbox.min.js')}}"></script>
-  <script src="{{asset('asset/vendor/isotope-layout/isotope.pkgd.min.js')}}"></script>
-  <script src="{{asset('asset/vendor/php-email-form/validate.js')}}"></script>
-  <script src="{{asset('asset/vendor/purecounter/purecounter.js')}}"></script>
-  <script src="{{asset('asset/vendor/swiper/swiper-bundle.min.js')}}"></script>
-  <script src="{{asset('asset/vendor/typed.js/typed.min.js')}}"></script>
-  <script src="{{asset('asset/vendor/waypoints/noframework.waypoints.js')}}"></script>
-
-  <script src="https://use.fontawesome.com/1744f3f671.js"></script>
-
-
-  <!-- Template Main JS File -->
-  <script src="{{asset('asset/js/main.js')}}"></script>
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-  
-  <script crossorigin=anonymous data-no-instant=on src=&#x2F;shop&#x2F;js&#x2F;d99437ed257e27a89e8c8b56abf0dbe006cde908.js type=text&#x2F;javascript></script>
-  <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vaafb692b2aea4879b33c060e79fe94621666317369993" integrity="sha512-0ahDYl866UMhKuYcW078ScMalXqtFJggm7TmlUtp0UlD4eQk0Ixfnm5ykXKvGJNFjLMoortdseTfsRT8oCfgGA==" data-cf-beacon='{"rayId":"76a84f7ba945cd59","token":"bccdf14e2cd344b7bb45298b8f2301db","version":"2022.11.0","si":100}' crossorigin="anonymous"></script>
-
-</body>
-  </html>
+</html>

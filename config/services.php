@@ -30,5 +30,10 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
+    'bulksms' => [
+    'username' => env('BULKSMS_USERNAME'),
+    'password' => env('BULKSMS_PASSWORD'),
+    'from'     => env('BULKSMS_FROM'), // يمكن أن تتركه فارغًا إذا لم يكن لديك Sender ID
+],
 
 ];

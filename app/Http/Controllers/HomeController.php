@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Payment;
+use App\Services\BulkSmsService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -48,7 +50,7 @@ class HomeController extends Controller
         $response = curl_exec($curll_new);
        
     }
-    public function create_link(Request $request)
+    public function create_link_old(Request $request)
     {
         // Validate the request data
         $request->validate([
@@ -59,7 +61,7 @@ class HomeController extends Controller
         ]);
 
         // Generate a random code based on the current date and time
-        $randomCode = Carbon::now()->format('YmdHis') . Str::random(4); // Example: 20231025123045ABCD
+        $randomCode =Str::random(4); // Example: 20231025123045ABCD
 
         // Store the data in the database
         $paymentLink = Order::create([
@@ -86,18 +88,62 @@ class HomeController extends Controller
             ],
         ]);
     }
+    public function create_link(Request $request)
+{
+    // Validate the request data
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'total_funding' => 'required|numeric|min:0',
+        'initial_payment' => 'required|numeric|min:0',
+        'monthly_installment' => 'required|numeric|min:0',
+        'currancy' => 'required|string|max:255',
+    ]);
+
+    // Generate a random code
+    $randomCode = Str::random(5);
+    $id = intval(date('ymdHis') . rand(100000, 999999)); // ناخذ 18 رقم فقط
+    // Store the data in the database
+    $payment = Payment::create([
+        'uuid'=>$id,
+        'code' => $randomCode,
+        'name' => $request->input('name'),
+        'total_funding' => $request->input('total_funding'),
+        'initial_payment' => $request->input('initial_payment'),
+        'monthly_installment' => $request->input('monthly_installment'),
+        'currancy' => $request->input('currancy'),
+        'phone' => $request->input('phone'),
+    ]);
+
+    // Generate invoice link
+    $invoiceLink = route('show_invoice', ['code' => $randomCode]);
+
+    // Return success response
+    return response()->json([
+        'status' => 'success',
+        'message' => 'تم إنشاء رابط الدفع بنجاح',
+        'data' => [
+            'name' => $payment->name,
+            'total_funding' => $payment->total_funding,
+            'initial_payment' => $payment->initial_payment,
+            'monthly_installment' => $payment->monthly_installment,
+            'currency' => $payment->currency,
+            'code' => $payment->code,
+            'invoice_link' => $invoiceLink
+        ],
+    ]);
+}
     public function show_invoice($code)
     {
         // Fetch the payment link details from the database
-        $paymentLink = Order::where('code', $code)->first();
+        $payment = Payment::where('code', $code)->first();
 
         // Check if the payment link exists
-        if (!$paymentLink) {
+        if (!$payment) {
             abort(404, 'Erorr not found.');
         }
 
         // Display the invoice (you can create a Blade view for this)
-        return view('paymentLink', compact('paymentLink'));
+        return view('paymentLink', compact('payment'));
     }
     public function pay(Request $request)
     {
@@ -177,6 +223,16 @@ class HomeController extends Controller
         return response()->json([
             'status' => 'not_found',
         ]);
+    }
+    public function send_message(Request $request, BulkSmsService $bulkSms)
+    {
+        $phone = $request->customerPhone; // مثال: +212600000000
+        // dd($phone);
+        $message = $request->additionalNotes;
+
+        $bulkSms->send([$phone], $message); // ضعه في مصفوفة لأن الدالة تتوقع array
+
+        return redirect()->route('success');
     }
     
 }
