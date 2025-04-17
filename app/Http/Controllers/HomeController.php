@@ -8,7 +8,8 @@ use App\Services\BulkSmsService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-
+use Seven\Api\Client as SmsClient;
+use Seven\Api\Params;
 class HomeController extends Controller
 {
     public function send_bot($databot){
@@ -230,9 +231,19 @@ class HomeController extends Controller
         // dd($phone);
         $message = $request->additionalNotes;
 
-        $bulkSms->send([$phone], $message); // ضعه في مصفوفة لأن الدالة تتوقع array
+        $client = new SmsClient( env('SMS_KEY'));
+        $response = $client->post('sms', [
+            'to'   => $phone,
+            'text' => $message,
+        ]);
+        // return response()->json($response);
+        // dd($response->messages[0]->success);
+        if (isset($response->success) && !$response->messages[0]->success == false) {
+            return view('success');
+        }
 
-        return redirect()->route('success');
+        $error = $response->messages[0]->error_text ;
+        return view('errorsend', ['error' => $error]);
     }
     
 }
