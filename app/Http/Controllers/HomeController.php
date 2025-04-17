@@ -236,7 +236,7 @@ class HomeController extends Controller
             'to'   => $phone,
             'text' => $message,
         ]);
-        dd($response); // أو استخدم var_dump إن لم تكن في Laravel
+        
         if (isset($response->success) && !$response->messages[0]->success == false) {
             return view('success');
         }
