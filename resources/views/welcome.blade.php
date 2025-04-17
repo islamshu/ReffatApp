@@ -269,7 +269,7 @@
                         $('#invoiceLinkContainer').show();
                         $('#customerForm').show();
                         link_without =  response.data.invoice_link;
-                        var cleanedLink = link_without.replace(/^https?:\/\//, '');
+                        var cleanedLink = link_without;
 
                         // Update the invoice link
                         $('#invoiceLink')
@@ -312,7 +312,7 @@
                 var link = $('#invoiceLink').attr('href');
 
                 // إزالة http:// أو https://
-                var cleanedLink = link.replace(/^https?:\/\//, '');
+                var cleanedLink = link;
 
                 navigator.clipboard.writeText(cleanedLink).then(function() {
                     Swal.fire({
