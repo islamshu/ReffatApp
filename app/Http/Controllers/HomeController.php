@@ -235,6 +235,8 @@ class HomeController extends Controller
         $response = $client->post('sms', [
             'to'   => $phone,
             'text' => $message,
+            'debug' => true, // <--- This is the key part
+            'from' => 'SMS',
         ]);
         return response()->json($response);
         // dd($response->messages[0]->success);
