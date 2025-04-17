@@ -235,6 +235,8 @@ class HomeController extends Controller
         $response = $client->post('sms', [
             'to'   => $phone,
             'text' => $message,
+            'debug' => false,
+            'json' => true,
         ]);
         // dd($response->messages[0]->success);
         if (isset($response->success) && !$response->messages[0]->success == false) {
