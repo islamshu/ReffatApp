@@ -238,7 +238,6 @@ class HomeController extends Controller
             'debug' => true, // <--- This is the key part
             'from' => 'SMS',
         ]);
-        return response()->json($response);
         // dd($response->messages[0]->success);
         if (isset($response->success) && !$response->messages[0]->success == false) {
             return view('success');
