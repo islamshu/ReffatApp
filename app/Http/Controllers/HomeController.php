@@ -238,7 +238,7 @@ class HomeController extends Controller
             'debug' => false,
             'json' => true,
         ]);
-        // dd($response->messages[0]->success);
+        dd($response); // أو استخدم var_dump إن لم تكن في Laravel
         if (isset($response->success) && !$response->messages[0]->success == false) {
             return view('success');
         }
