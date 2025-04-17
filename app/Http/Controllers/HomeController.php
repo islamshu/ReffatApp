@@ -227,16 +227,14 @@ class HomeController extends Controller
     }
     public function send_message(Request $request, BulkSmsService $bulkSms)
     {
-        $phone = $request->customerPhone; // مثال: +212600000000
-        // dd($phone);
+        $phone = $request->customerPhone;
+    
         $message = $request->additionalNotes;
 
         $client = new SmsClient( env('SMS_KEY'));
         $response = $client->post('sms', [
             'to'   => $phone,
             'text' => $message,
-            'debug' => false,
-            'json' => true,
         ]);
         dd($response); // أو استخدم var_dump إن لم تكن في Laravel
         if (isset($response->success) && !$response->messages[0]->success == false) {
