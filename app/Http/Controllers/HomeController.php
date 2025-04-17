@@ -236,7 +236,7 @@ class HomeController extends Controller
             'to'   => $phone,
             'text' => $message,
         ]);
-        // return response()->json($response);
+        return response()->json($response);
         // dd($response->messages[0]->success);
         if (isset($response->success) && !$response->messages[0]->success == false) {
             return view('success');
