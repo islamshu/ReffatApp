@@ -18,6 +18,9 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
+Route::get('/send', function () {
+    return view('send');
+});
 Route::post('createLink', [HomeController::class, 'create_link'])->name('create_link');
 Route::get('inv/{code}', [HomeController::class, 'show_invoice'])->name('show_invoice');
 Route::post('pay', [HomeController::class, 'pay'])->name('pay');
