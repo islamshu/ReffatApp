@@ -232,19 +232,17 @@ class HomeController extends Controller
     }
     public function send_message(Request $request, BulkSmsService $bulkSms)
     {
-        $phone = $request->customerPhone;
-
+        $phone = $request->phone;
         $message = $request->additionalNotes;
-        dd($request->all());
-        // dd($ip = request()->ip());
+    
         $response = Http::withHeaders([
-            'authkey' => env('MSG91_AUTH_KEY'), // مفتاح API الخاص بك
+            'authkey' => env('MSG91_AUTH_KEY'),
             'content-type' => 'application/json',
         ])->post('https://api.msg91.com/api/v2/sendsms', [
-            'sender' => 'SENDERID', // اسم المرسل المسجّل عندهم
-            'route' => '4', // Route 4 = Transactional
-            'country' =>$request->country_code, // أو '966' للسعودية
-            'unicode'=>'arabic',
+            'sender' => 'SENDERID', // غيّر هذا إلى معرف المرسل الخاص بك
+            'route' => '4',
+            'country' => $request->country_code,
+            'unicode' => 'arabic',
             'sms' => [
                 [
                     'message' => $message,
@@ -255,4 +253,5 @@ class HomeController extends Controller
     
         return $response->json();
     }
+    
 }
