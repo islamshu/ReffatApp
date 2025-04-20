@@ -254,7 +254,7 @@ class HomeController extends Controller
         $responseData = $response->json();
 
         if ($response->successful() && isset($responseData['type']) && $responseData['type'] === 'success') {
-            return view('sms.success');
+            return view('success');
         } else {
             // في حال فشل الإرسال أو تم إرجاع رسالة خطأ
             $errorMessage = $responseData['message'] ?? 'حدث خطأ غير معروف.';
