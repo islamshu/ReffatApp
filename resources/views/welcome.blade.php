@@ -202,7 +202,7 @@
                 <select id="country_code" name="country_code" required>
                     <option value="968" data-flag="🇴🇲">🇴🇲 سلطنة عمان (+968)</option>
                     <option value="966" data-flag="🇸🇦">🇸🇦 السعودية (+966)</option>
-                    <option value="20" data-flag="🇪🇬">🇪🇬 مصر (+20)</option>
+                    <option value="+20" data-flag="🇪🇬">🇪🇬 مصر (+20)</option>
                     <option value="970" data-flag="🇵🇸">🇵🇸 فلسطين (+970)</option>
                     <option value="972" data-flag="🇮🇱">🇮🇱 إسرائيل (+972)</option>
                 </select>
