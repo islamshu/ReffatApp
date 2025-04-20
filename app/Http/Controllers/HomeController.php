@@ -251,7 +251,10 @@ class HomeController extends Controller
             ]
         ]);
     
-        return $response->json();
-    }
+        if ($response->successful()) {
+            return view('success'); // عرض الصفحة عند النجاح
+        } else {
+            return view('errorsend'); // عرض الصفحة عند النجاح
+        }    }
     
 }
