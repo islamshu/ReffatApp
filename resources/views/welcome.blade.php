@@ -198,10 +198,21 @@
 
 
             <div class="form-group">
-                <label for="customerPhone">رقم الهاتف:</label>
-                <input type="tel" id="customerPhone" name="customerPhone" placeholder="أدخل رقم الهاتف" required>
+                <label for="country_code">رمز الدولة:</label>
+                <select id="country_code" name="country_code" required>
+                    <option value="968" data-flag="🇴🇲">🇴🇲 سلطنة عمان (+968)</option>
+                    <option value="966" data-flag="🇸🇦">🇸🇦 السعودية (+966)</option>
+                    <option value="20" data-flag="🇪🇬">🇪🇬 مصر (+20)</option>
+                    <option value="970" data-flag="🇵🇸">🇵🇸 فلسطين (+970)</option>
+                    <option value="972" data-flag="🇮🇱">🇮🇱 إسرائيل (+972)</option>
+                </select>
             </div>
-
+            
+            <div class="form-group">
+                <label for="phone">رقم الهاتف:</label>
+                <input type="tel" id="phone" name="phone" placeholder="أدخل رقم الهاتف بدون كود الدولة" required>
+            </div>
+            
             <div class="form-group">
                 <label for="additionalNotes">ملاحظات إضافية:</label>
                 <textarea id="additionalNotes" name="additionalNotes" rows="3" placeholder="أدخل أي ملاحظات إضافية هنا"></textarea>

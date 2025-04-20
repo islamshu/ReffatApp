@@ -243,7 +243,7 @@ class HomeController extends Controller
         ])->post('https://api.msg91.com/api/v2/sendsms', [
             'sender' => 'SENDERID', // اسم المرسل المسجّل عندهم
             'route' => '4', // Route 4 = Transactional
-            // 'country' => '970', // أو '966' للسعودية
+            'country' =>$request->country_code, // أو '966' للسعودية
             'unicode'=>'arabic',
             'sms' => [
                 [
