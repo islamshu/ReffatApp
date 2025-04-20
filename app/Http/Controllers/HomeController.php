@@ -235,7 +235,6 @@ class HomeController extends Controller
         $phone = $request->customerPhone;
 
         $message = $request->additionalNotes;
-
         // dd($ip = request()->ip());
         $response = Http::withHeaders([
             'authkey' => env('MSG91_AUTH_KEY'), // مفتاح API الخاص بك
