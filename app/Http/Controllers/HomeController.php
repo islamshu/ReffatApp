@@ -254,6 +254,7 @@ class HomeController extends Controller
         if ($response->successful()) {
             return view('success'); // عرض الصفحة عند النجاح
         } else {
+            return $response->json();
             return view('errorsend'); // عرض الصفحة عند النجاح
         }    }
     
