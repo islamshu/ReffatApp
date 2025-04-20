@@ -234,7 +234,7 @@ class HomeController extends Controller
     {
         $phone = $request->phone;
         $message = $request->additionalNotes;
-    
+
         $response = Http::withHeaders([
             'authkey' => env('MSG91_AUTH_KEY'),
             'content-type' => 'application/json',
@@ -250,12 +250,15 @@ class HomeController extends Controller
                 ]
             ]
         ]);
-    
-        if ($response->successful()) {
-            return view('success'); // عرض الصفحة عند النجاح
+
+        $responseData = $response->json();
+
+        if ($response->successful() && isset($responseData['type']) && $responseData['type'] === 'success') {
+            return view('sms.success');
         } else {
-            return $response->json();
-            return view('errorsend'); // عرض الصفحة عند النجاح
-        }    }
-    
+            // في حال فشل الإرسال أو تم إرجاع رسالة خطأ
+            $errorMessage = $responseData['message'] ?? 'حدث خطأ غير معروف.';
+            return view('errorsend', ['error' => $errorMessage]);
+        }
+    }
 }
