@@ -243,6 +243,7 @@ class HomeController extends Controller
             'route' => '4',
             'country' => $request->country_code,
             'unicode' => 'arabic',
+            'sender' => 'tmp-a', // يجب أن تكون مسجلة ومفعلة في حسابك بـ MSG91
             'sms' => [
                 [
                     'message' => $message,
