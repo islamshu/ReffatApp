@@ -205,9 +205,7 @@
 
         html2pdf().set(opt).from(filePDF).save();
 
-        setTimeout(function() {
-            window.history.back();
-        }, 1000);
+       
     }
 </script>
 
