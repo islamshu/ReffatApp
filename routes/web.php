@@ -30,6 +30,8 @@ Route::get('failure_url/{code}', [HomeController::class, 'error_url'])->name('er
 Route::get('/check-order-status', [HomeController::class, 'checkOrderStatus'])->name('check_order_status');
 Route::get('success', [HomeController::class, 'success'])->name('success');
 Route::get('error', [HomeController::class, 'error'])->name('error');
+Route::get('pdf/{code}', [HomeController::class, 'pdf'])->name('pdf');
+
 Route::post('send_message',[HomeController::class, 'send_message'])->name('send_message');
 
 

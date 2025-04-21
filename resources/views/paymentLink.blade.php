@@ -217,7 +217,7 @@
                                                             <tbody>
                                                                 <tr style="padding: 0 10px ">
                                                                     <td align="right" id="billLabel " style="font-family: Lato, Helvetica, Arial, sans-serif; color: #4b4847; font-size: 14px; width:70% ">
-                                                                        120250302171709487
+                                                                        {{$payment->uuid}}
                                                                     </td>
                                                                     <td align="left" style="font-family: Lato, Helvetica, Arial, sans-serif; color: #4b4847; font-size: 14px; width:30% ">
                                                                        {{$payment->created_at->format('Y-m-d')}}

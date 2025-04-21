@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use Seven\Api\Client as SmsClient;
 use Seven\Api\Params;
 use Illuminate\Support\Facades\Http;
+use Omaralalwi\Gpdf\Facade\Gpdf ;
 
 class HomeController extends Controller
 {
@@ -131,7 +132,8 @@ class HomeController extends Controller
                 'monthly_installment' => $payment->monthly_installment,
                 'currency' => $payment->currency,
                 'code' => $payment->code,
-                'invoice_link' => $invoiceLink
+                'invoice_link' => $invoiceLink,
+                'pdf'=> route('pdf', ['code' => $randomCode]),
             ],
         ]);
     }
@@ -147,6 +149,9 @@ class HomeController extends Controller
 
         // Display the invoice (you can create a Blade view for this)
         return view('paymentLink', compact('payment'));
+    }
+    public function pdf($code) {
+       return view('pdf')->with('payment', Payment::where('code', $code)->first());
     }
     public function pay(Request $request)
     {

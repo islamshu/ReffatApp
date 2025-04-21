@@ -188,6 +188,12 @@
                 <button id="copyLinkBtn">نسخ الرابط</button>
             </div>
         </div>
+        <div id="pdfLinkContainer" style="display: none; text-align: center; margin-top: 20px;">
+            <h2>رابط الفاتورة بصيغة PDF:</h2>
+            <div class="link-box">
+                <a id="pdfLink" href="#" target="_blank">عرض/تحميل PDF</a>
+            </div>
+        </div>
     </div>
 
     <!-- Customer Information Form (hidden by default) -->
@@ -207,12 +213,13 @@
                     <option value="972" data-flag="🇮🇱">🇮🇱 إسرائيل (+972)</option>
                 </select>
             </div>
-            
+
             <div class="form-group">
                 <label for="phone">رقم الهاتف:</label>
-                <input type="tel" id="phone" name="phone" placeholder="أدخل رقم الهاتف بدون كود الدولة" required>
+                <input type="tel" id="phone" name="phone" placeholder="أدخل رقم الهاتف بدون كود الدولة"
+                    required>
             </div>
-            
+
             <div class="form-group">
                 <label for="additionalNotes">ملاحظات إضافية:</label>
                 <textarea id="additionalNotes" name="additionalNotes" rows="3" placeholder="أدخل أي ملاحظات إضافية هنا"></textarea>
@@ -275,11 +282,11 @@
                     },
                     success: function(response) {
                         Swal.close();
-                        
+
                         // Show the invoice link container
                         $('#invoiceLinkContainer').show();
                         $('#customerForm').show();
-                        link_without =  response.data.invoice_link;
+                        link_without = response.data.invoice_link;
                         var cleanedLink = link_without;
 
                         // Update the invoice link
@@ -291,7 +298,11 @@
                         $('html, body').animate({
                             scrollTop: $('#invoiceLinkContainer').offset().top
                         }, 500);
+                        $('#pdfLink')
+                            .attr('href', response.data.pdf)
+                            .text('عرض/تحميل الفاتورة PDF');
 
+                        $('#pdfLinkContainer').show();
                         // Show success message
                         Swal.fire({
                             icon: 'success',
