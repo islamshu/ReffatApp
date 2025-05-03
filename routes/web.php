@@ -31,6 +31,7 @@ Route::get('/check-order-status', [HomeController::class, 'checkOrderStatus'])->
 Route::get('success', [HomeController::class, 'success'])->name('success');
 Route::get('error', [HomeController::class, 'error'])->name('error');
 Route::get('pdf/{code}', [HomeController::class, 'pdf'])->name('pdf');
+Route::post('check_verification_code', [HomeController::class, 'check_virification_code'])->name('check.verification.code'); //
 
 Route::post('send_message',[HomeController::class, 'send_message'])->name('send_message');
 

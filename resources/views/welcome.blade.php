@@ -188,6 +188,12 @@
                 <button id="copyLinkBtn">نسخ الرابط</button>
             </div>
         </div>
+        <div id="secritContainer" style="display: none; text-align: center; margin-top: 20px;">
+            <h2>الكود السري</h2>
+            <div class="link-box">
+                <span id="secrit"></span>
+            </div>
+        </div>
         <div id="pdfLinkContainer" style="display: none; text-align: center; margin-top: 20px;">
             <h2>رابط الفاتورة بصيغة PDF:</h2>
             <div class="link-box">
@@ -303,6 +309,11 @@
                             .text('عرض/تحميل الفاتورة PDF');
 
                         $('#pdfLinkContainer').show();
+                        $('#secrit')
+                            .text( response.data.pass);
+
+                        $('#secritContainer').show();
+                        
                         // Show success message
                         Swal.fire({
                             icon: 'success',

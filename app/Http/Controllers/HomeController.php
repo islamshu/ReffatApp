@@ -7,6 +7,7 @@ use App\Models\Payment;
 use App\Services\BulkSmsService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Seven\Api\Client as SmsClient;
 use Seven\Api\Params;
@@ -106,6 +107,7 @@ class HomeController extends Controller
         // Generate a random code
         $randomCode = Str::random(5);
         $id = intval(date('ymdHis') . rand(100000, 999999)); // ناخذ 18 رقم فقط
+        $secret_code = Str::random(10);
         // Store the data in the database
         $payment = Payment::create([
             'uuid' => $id,
@@ -116,6 +118,7 @@ class HomeController extends Controller
             'monthly_installment' => $request->input('monthly_installment'),
             'currancy' => $request->input('currancy'),
             'phone' => $request->input('phone'),
+            'pass'=> bcrypt($secret_code),
         ]);
 
         // Generate invoice link
@@ -134,6 +137,7 @@ class HomeController extends Controller
                 'code' => $payment->code,
                 'invoice_link' => $invoiceLink,
                 'pdf'=> route('pdf', ['code' => $randomCode]),
+                'pass'=> $secret_code,
             ],
         ]);
     }
@@ -150,6 +154,32 @@ class HomeController extends Controller
         // Display the invoice (you can create a Blade view for this)
         return view('paymentLink', compact('payment'));
     }
+    public function check_virification_code(Request $request)
+{
+    // Fetch the payment link details from the database
+    $payment = Payment::where('code', $request->invoice_code)->first();
+
+    if (!$payment) {
+        return response()->json([
+            'status' => 'error',
+            'message' => 'الفاتورة غير موجودة.',
+        ]);
+    }
+
+    if (Hash::check($request->verification_code, $payment->pass)) {
+        $html = view('_invoice', compact('payment'))->render();
+        
+        return response()->json([
+            'status' => 'success',
+            'html' => $html
+        ]);
+    } else {
+        return response()->json([
+            'status' => 'error',
+            'message' => 'رمز التحقق غير صحيح.',
+        ]);
+    }
+}
     public function pdf($code) {
        return view('pdf')->with('payment', Payment::where('code', $code)->first());
     }
