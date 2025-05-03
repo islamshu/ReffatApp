@@ -119,6 +119,7 @@ class HomeController extends Controller
             'currancy' => $request->input('currancy'),
             'phone' => $request->input('phone'),
             'pass'=> bcrypt($secret_code),
+            'show_pass'=> $secret_code,
         ]);
 
         // Generate invoice link
